@@ -1,113 +1,122 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="./css/vue.css">
+  <link rel="stylesheet" href="./css/mermaid.min.css">
 </head>
 <body>
-  <div id="app">º”‘ÿ÷–...</div>
-  <script>
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
-    window.$docsify = {
-	  auto2top: true, //µ±¬∑œﬂ∏ƒ±‰ ±£¨πˆ∂ØµΩ∆¡ƒªµƒ∂•≤ø°£
-      loadSidebar: true, //_sidebar.md»Áπ˚Œ™’Ê£¨‘Ú¥”_sidebar.mdŒƒº˛º”‘ÿ±ﬂ¿∏£¨∑Ò‘Ú¥”÷∏∂®µƒ¬∑æ∂º”‘ÿ°£
-      subMaxLevel: 2,//‘⁄◊‘∂®“Â±ﬂ¿∏÷–ÃÌº”ƒø¬º£®TOC£©°£
-      alias: {
-         '/.*/_sidebar.md': '/_sidebar.md',//∑¿÷π“‚Õ‚ªÿÕÀ
-      },
-      markdown: {
-        renderer: {
-          code: function(code, lang) {
-            if (lang === "flow") {
-              (async () => {
-                await sleep(500);
-                var diagram = flowchart.parse(code);
-                diagram.drawSVG('flow');
-              })();
-              return '<div id="flow"></div>';
-            } else if (lang === "sequence") {
-              (async () => {
-                await sleep(500);
-                var diagram = Diagram.parse(code);
-                diagram.drawSVG('sequence', {theme: 'simple'});
-              })();
-              return '<div id="sequence"></div>';
-            } else if (lang === "mermaid") {
-              return (
-                '<div class="mermaid">' + mermaid.render(lang, code) + "</div>"
-              );
-            } else if (lang === "c++") {
-              lang = "cpp";
-            }
-            return this.origin.code.apply(this, arguments);
+<div id="app">Âä†ËΩΩ‰∏≠...</div>
+<script>
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  window.$docsify = {
+    name: 'icbabm',
+    auto2top: true, //ÂΩìË∑ØÁ∫øÊîπÂèòÊó∂ÔºåÊªöÂä®Âà∞Â±èÂπïÁöÑÈ°∂ÈÉ®„ÄÇ
+    coverpage: true, //ÊøÄÊ¥ªÂ∞ÅÈù¢ÂäüËÉΩ„ÄÇÂ¶ÇÊûú‰∏∫trueÔºåÂàô‰ºö‰ªé‰∏≠Âä†ËΩΩ_coverpage.md„ÄÇ
+    loadSidebar: true, //_sidebar.mdÂ¶ÇÊûú‰∏∫ÁúüÔºåÂàô‰ªé_sidebar.mdÊñá‰ª∂Âä†ËΩΩËæπÊ†èÔºåÂê¶Âàô‰ªéÊåáÂÆöÁöÑË∑ØÂæÑÂä†ËΩΩ„ÄÇ
+    loadNavbar: false,//_navbar.mdÂ¶ÇÊûú‰∏∫ÁúüÔºåÂàô‰ªé_navbar.mdÊñá‰ª∂Âä†ËΩΩnavbar ÔºåÂê¶Âàô‰ªéÊåáÂÆöÁöÑË∑ØÂæÑÂä†ËΩΩ„ÄÇ
+    maxLevel: 4,//ÊúÄÂ§ßÁöÑÂÜÖÂÆπË°®Á∫ßÂà´„ÄÇ
+    subMaxLevel: 2,//Âú®Ëá™ÂÆö‰πâËæπÊ†è‰∏≠Ê∑ªÂä†ÁõÆÂΩïÔºàTOCÔºâ„ÄÇ
+    alias: {
+      '/.*/_sidebar.md': '/_sidebar.md',//Èò≤Ê≠¢ÊÑèÂ§ñÂõûÈÄÄ
+    },
+    search: {
+      noData: 'Ê≤°ÊúâÁªìÊûú!',
+      paths: 'auto',
+      placeholder: 'ÊêúÁ¥¢'
+    },
+    markdown: {
+      renderer: {
+        code: function(code, lang) {
+          if (lang === "flow") {
+            (async () => {
+              await sleep(500);
+              var diagram = flowchart.parse(code);
+              diagram.drawSVG('flow');
+            })();
+            return '<div id="flow"></div>';
+          } else if (lang === "sequence") {
+            (async () => {
+              await sleep(500);
+              var diagram = Diagram.parse(code);
+              diagram.drawSVG('sequence', {theme: 'simple'});
+            })();
+            return '<div id="sequence"></div>';
+          } else if (lang === "mermaid") {
+            return (
+                    '<div class="mermaid">' + mermaid.render(lang, code) + "</div>"
+            );
+          } else if (lang === "c++") {
+            lang = "cpp";
           }
+          return this.origin.code.apply(this, arguments);
         }
-      },
-      plugins: [
-        function(hook, vm) {
-          hook.doneEach(function() {
-            document.querySelectorAll(".sidebar-nav > ul > li").forEach(
-              function(node, index, nodelist) {
-                var span = document.createElement("span");
-                span.innerHTML = node.firstChild.data;
-                span.style.cursor = "pointer";
-                span.onclick = function(event) {
-                  var ul = event.target.nextElementSibling;
-                  if (ul.style.display === "none") {
-                    ul.style.display = "block";
-                  } else {
-                    ul.style.display = "none";
-                  }
-                };
-                node.firstChild.replaceWith(span);
-                node.lastChild.style.display = "none";
-            });
-            var active = document.querySelector(".sidebar-nav li.active");
-            if (active) {
-              active.parentElement.style.display = "block";
-            }
-          });
-        }
-      ]
-    }
-  </script>
-  <!-- docsify -->
-
-
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-c.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-java.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
-
-  <!-- language highlight
-  <script src="//unpkg.com/prismjs/components/prism-python.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-clike.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-c.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-cpp.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-cmake.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-java.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-html.min.js"></script> -->
-
-  <!-- flowchart requirements -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael-min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/flowchart/1.12.0/flowchart.min.js"></script>
-  <!-- sequence diagram requirments -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
-  <!-- mermaid erquirements -->
-  <script src="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script type="text/javascript">mermaid.initialize({ startOnLoad: false });</script>
+      }
+    },
+    formatUpdated: '{YYYY}/{MM}/{DD} {HH}:{mm}',
+    plugins: [
+      function(hook, vm) {
+        hook.beforeEach(function (html) {
+          debugger;
+          var url = 'https://github.com/icbabm/note/blob/master/' +  vm.route.file
+          var editHtml = '[:memo:](' + url + ')\n'
+          return html
+                  + '\n----\n'
+                  + 'ÊúÄÂêé‰øÆÊîπÊó∂Èó¥ {docsify-updated} '
+                  + editHtml
+        }),
+        hook.doneEach(function() {
+          document.querySelectorAll(".sidebar-nav > ul > li").forEach(
+                  function(node, index, nodelist) {
+                    var span = document.createElement("span");
+                    span.innerHTML = node.firstChild.data;
+                    span.style.cursor = "pointer";
+                    span.onclick = function(event) {
+                      var ul = event.target.nextElementSibling;
+                      if (ul.style.display === "none") {
+                        ul.style.display = "block";
+                      } else {
+                        ul.style.display = "none";
+                      }
+                    };
+                    node.firstChild.replaceWith(span);
+                    node.lastChild.style.display = "none";
+                  });
+          var active = document.querySelector(".sidebar-nav li.active");
+          if (active) {
+            active.parentElement.style.display = "block";
+          }
+        });
+      }
+    ]
+  }
+</script>
+<!-- docsify -->
+<script src="./js/docsify.min.js"></script>
+<script src="./js/emoji.min.js"></script>
+<script src="./js/search.min.js"></script>
+<script src="./js/zoom-image.min.js"></script>
+<!-- language highlight  -->
+<script src="./js/prism-bash.min.js"></script>
+<script src="./js/prism-c.min.js"></script>
+<script src="./js/prism-clike.min.js"></script>
+<script src="./js/prism-cpp.min.js"></script>
+<script src="./js/prism-cmake.min.js"></script>
+<script src="./js/prism-python.min.js"></script>
+<script src="./js/prism-java.min.js"></script>
+<script src="./js/prism-javascript.min.js"></script>
+<script src="./js/prism-sql.min.js"></script>
+<!-- flowchart requirements -->
+<script src="./js/raphael-min.js"></script>
+<script src="./js/flowchart.min.js"></script>
+<!-- sequence diagram requirments -->
+<script src="./js/underscore-min.js"></script>
+<script src="./js/sequence-diagram-min.js"></script>
+<!-- mermaid erquirements -->
+<script src="./js/mermaid.min.js"></script>
+<script type="text/javascript">mermaid.initialize({ startOnLoad: false });</script>
 </body>
 </html>
