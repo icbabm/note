@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="./css/vue.css">
+  <link rel="stylesheet" href="./css/mermaid.min.css">
+</head>
+<body>
+<div id="app">加载中...</div>
+<script>
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  window.$docsify = {
+    name: 'icbabm',
+    auto2top: true, //当路线改变时，滚动到屏幕的顶部。
+    coverpage: true, //激活封面功能。如果为true，则会从中加载_coverpage.md。
+    loadSidebar: true, //_sidebar.md如果为真，则从_sidebar.md文件加载边栏，否则从指定的路径加载。
+    loadNavbar: false,//_navbar.md如果为真，则从_navbar.md文件加载navbar ，否则从指定的路径加载。
+    subMaxLevel: 2,//在自定义边栏中添加目录（TOC）。
+    alias: {
+      '/.*/_sidebar.md': '/_sidebar.md',//防止意外回退
+    },
+    search: {
+      noData: '没有结果!',
+      paths: 'auto',
+      placeholder: '搜索'
+    },
+    markdown: {
+      renderer: {
+        code: function(code, lang) {
+          if (lang === "flow") {
+            (async () => {
+              await sleep(500);
+              var diagram = flowchart.parse(code);
+              diagram.drawSVG('flow');
+            })();
+            return '<div id="flow"></div>';
+          } else if (lang === "sequence") {
+            (async () => {
+              await sleep(500);
+              var diagram = Diagram.parse(code);
+              diagram.drawSVG('sequence', {theme: 'simple'});
+            })();
+            return '<div id="sequence"></div>';
+          } else if (lang === "mermaid") {
+            return (
+                    '<div class="mermaid">' + mermaid.render(lang, code) + "</div>"
+            );
+          } else if (lang === "c++") {
+            lang = "cpp";
+          }
+          return this.origin.code.apply(this, arguments);
+        }
+      }
+    },
+    formatUpdated: '{YYYY}/{MM}/{DD} {HH}:{mm}',
+    plugins: [
+      function(hook, vm) {
+        hook.beforeEach(function (html) {
+          debugger;
+          var url = 'https://github.com/icbabm/note/blob/master/' +  vm.route.file
+          var editHtml = '[:memo:](' + url + ')\n'
+          return html
+                  + '\n----\n'
+                  + '最后修改时间 {docsify-updated} '
+                  + editHtml
+        }),
+        hook.doneEach(function() {
+          document.querySelectorAll(".sidebar-nav > ul > li").forEach(
+                  function(node, index, nodelist) {
+                    var span = document.createElement("span");
+                    span.innerHTML = node.firstChild.data;
+                    span.style.cursor = "pointer";
+                    span.onclick = function(event) {
+                      var ul = event.target.nextElementSibling;
+                      if (ul.style.display === "none") {
+                        ul.style.display = "block";
+                      } else {
+                        ul.style.display = "none";
+                      }
+                    };
+                    node.firstChild.replaceWith(span);
+                    node.lastChild.style.display = "none";
+                  });
+          var active = document.querySelector(".sidebar-nav li.active");
+          if (active) {
+            active.parentElement.style.display = "block";
+          }
+        });
+      }
+    ]
+  }
+</script>
+<!-- docsify -->
+<script src="./js/docsify.min.js"></script>
+<script src="./js/emoji.min.js"></script>
+<script src="./js/search.min.js"></script>
+<script src="./js/zoom-image.min.js"></script>
+<!-- language highlight  -->
+<script src="./js/prism-bash.min.js"></script>
+<script src="./js/prism-c.min.js"></script>
+<script src="./js/prism-clike.min.js"></script>
+<script src="./js/prism-cpp.min.js"></script>
+<script src="./js/prism-cmake.min.js"></script>
+<script src="./js/prism-python.min.js"></script>
+<script src="./js/prism-java.min.js"></script>
+<script src="./js/prism-javascript.min.js"></script>
+<script src="./js/prism-sql.min.js"></script>
+<!-- flowchart requirements -->
+<script src="./js/raphael-min.js"></script>
+<script src="./js/flowchart.min.js"></script>
+<!-- sequence diagram requirments -->
+<script src="./js/underscore-min.js"></script>
+<script src="./js/sequence-diagram-min.js"></script>
+<!-- mermaid erquirements -->
+<script src="./js/mermaid.min.js"></script>
+<script type="text/javascript">mermaid.initialize({ startOnLoad: false });</script>
+</body>
+</html>
